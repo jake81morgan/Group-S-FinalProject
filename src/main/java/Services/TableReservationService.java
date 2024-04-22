@@ -26,6 +26,17 @@ public class TableReservationService {
 		return tables;
 	}
 
+	// @return the getTableByNumber
+	public Table getTableByNumber(int tableNumber) {
+		for (Table table : tables) {
+			if (table.getTableNumber() == tableNumber) {
+				return table;
+			}
+		}
+		// Table was not found
+		return null;
+	}
+
 	// @param tables the tables to set
 	public void initializeTables(List<Table> tables) {
 		this.tables = tables;
