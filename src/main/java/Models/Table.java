@@ -4,6 +4,7 @@ public class Table {
 	private int tableNumber;
 	private int capacity;
 	private boolean isReserved;
+	private String customerName;
 
 	public Table(int tableNumber, int Seats) {
 		// TODO Auto-generated constructor stub
@@ -38,4 +39,15 @@ public class Table {
 	public void setReserved(boolean isReserved) {
 		this.isReserved = isReserved;
 	}
+
+	// @return the customerName
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	// @param customerName the customerName to set
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
 }

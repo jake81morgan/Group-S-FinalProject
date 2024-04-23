@@ -37,8 +37,50 @@ public class TableReservationService {
 		return null;
 	}
 
-	// @param tables the tables to set
-	public void initializeTables(List<Table> tables) {
-		this.tables = tables;
+	// Method to book a table for specific date and time
+	public boolean bookTable(int tableNumber, int customerCount, String customerName) {
+		Table table = getTableByNumber(tableNumber);
+		Table tableAdjacent = getTableByNumber(tableNumber + 1);
+
+		if (customerCount <= table.getCapacity()) {
+			if (table != null && !table.isReserved() && table.getCapacity() >= customerCount) {
+				table.setReserved(true);
+				table.setCustomerName(customerName);
+				return true;// Booking was successful
+			}
+		} else if (customerCount <= 2 * table.getCapacity()) {
+			if (table != null && tableAdjacent != null && !table.isReserved() && !tableAdjacent.isReserved()) {
+				table.setReserved(true);
+				tableAdjacent.setReserved(true);
+				table.setCustomerName(customerName);
+				tableAdjacent.setCustomerName(customerName);
+				return true;// Booking was successful
+			}
+		}
+
+		return false;// Booking was unsuccessful
+	}
+
+	// Method to handle cancellation of a reservation
+	public boolean cancelReservation(String customerName) {
+		for (Table table : tables) {
+			if (table.isReserved() && table.getCustomerName().equals(customerName)) {
+				table.setReserved(false);
+				table.setCustomerName(null);
+			}
+		}
+		return false;
+	}
+
+	// Method to display Available Tables
+	public void availableTables() {
+		System.out.println("The following tableNumbers are available: ");
+		for (Table table : tables) {
+			if (table.isReserved()) {
+
+			} else {
+				System.out.print(" " + table.getTableNumber());
+			}
+		}
 	}
 }
