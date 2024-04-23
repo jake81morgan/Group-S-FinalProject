@@ -83,4 +83,24 @@ public class TableReservationService {
 			}
 		}
 	}
+	
+	public void confirmReservation(boolean tableIsReserved, int tableNumber) {
+		if(tableIsReserved) {
+			System.out.println("Table " + tableNumber + " has succesfully been reserved");
+		}
+		else {
+			System.out.println("Table " + tableNumber + " was unable to be reserved");
+		}
+	}
+	
+	public void viewReservationDetails(String customerName) {
+		System.out.println("The following reservation is labeled under the name: " + customerName);
+		for (Table table : tables) {
+			if (table.isReserved() && table.getCustomerName().equals(customerName)) {
+				System.out.println("The table number is : " + table.getTableNumber());
+				//System.out.println("The table number is : " + table.getDate());
+				//System.out.println("The table number is : " + table.getTime());
+			}
+		}
+	}
 }
