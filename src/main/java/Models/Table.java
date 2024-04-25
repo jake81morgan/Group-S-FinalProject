@@ -1,13 +1,19 @@
 package Models;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+
 public class Table {
 	private int tableNumber;
 	private int capacity;
 	private boolean isReserved;
 	private String customerName;
+	private DayOfWeek reservationDate;
+	private LocalTime reservationTime;
 
-	public Table(int tableNumber, int Seats) {
-		// TODO Auto-generated constructor stub
+	public Table(int tableNumber, int capacity) {
+		this.tableNumber = tableNumber;
+		this.capacity = capacity;
 	}
 
 	// @return the tableNumber
@@ -48,6 +54,26 @@ public class Table {
 	// @param customerName the customerName to set
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
+	}
+
+	// @return the reservationDate
+	public DayOfWeek getReservationDate() {
+		return reservationDate;
+	}
+
+	// @param reservationDate the reservationDate to set
+	public void setReservationDate(DayOfWeek reservationDate) {
+		this.reservationDate = reservationDate;
+	}
+
+	// @return the reservationTime
+	public LocalTime getReservationTime() {
+		return reservationTime;
+	}
+
+	// @param reservationTime the reservationTime to set
+	public void setReservationTime(LocalTime reservationTime) {
+		this.reservationTime = reservationTime;
 	}
 
 }
