@@ -14,6 +14,7 @@ public class Ingredient {
 		this.supplier = supplier;
 		this.orderThreshold = orderThreshold;
 	}
+	
 
 	public String getSupplier() {
 		return supplier;
