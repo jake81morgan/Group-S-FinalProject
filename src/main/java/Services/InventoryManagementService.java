@@ -2,6 +2,7 @@ package Services;
 
 import java.util.ArrayList;
 
+import Enums.IngredientNames;
 import Models.Ingredient;
 
 public class InventoryManagementService {
@@ -13,13 +14,9 @@ public class InventoryManagementService {
 	}
 	
     public void initializeInventory() {
-        for (Ingredient ingredient : inventory) {
-            // Set quantity to 100
-            ingredient.setQuantity(100);
-            // Set supplier to "Sysco"
-            ingredient.setSupplier("Sysco");
-            // Set threshold to 25
-            ingredient.setOrderThreshold(25);
+    	for (IngredientNames ingredientName : IngredientNames.values()) {
+            Ingredient ingredient = new Ingredient(ingredientName.getDisplayName(), 100, "Sysco", 25);
+            inventory.add(ingredient);
         }
     }
 	
