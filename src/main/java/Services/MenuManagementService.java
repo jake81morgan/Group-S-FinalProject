@@ -1,5 +1,32 @@
 package Services;
 
-public class MenuManagementService {
+import Models.MenuItem;
+import java.util.ArrayList;
+import java.util.List;
 
+public class MenuManagementService {
+    private List<MenuItem> menuItems = new ArrayList<>();
+
+    public void addMenuItem(MenuItem item) {
+        menuItems.add(item);
+    }
+
+    public boolean removeMenuItem(int itemId) {
+        return menuItems.removeIf(item -> item.getId() == itemId);
+    }
+
+    public void updateMenuItem(MenuItem updatedItem) {
+        menuItems.forEach(item -> {
+            if (item.getId() == updatedItem.getId()) {
+                item.setName(updatedItem.getName());
+                item.setDescription(updatedItem.getDescription());
+                item.setPrice(updatedItem.getPrice());
+                item.setCategory(updatedItem.getCategory());
+            }
+        });
+    }
+
+    public List<MenuItem> getMenuItems() {
+        return new ArrayList<>(menuItems);
+    }
 }
