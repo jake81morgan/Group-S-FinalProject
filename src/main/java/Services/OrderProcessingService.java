@@ -1,6 +1,5 @@
 package Services;
 
-import java.awt.Menu;
 import java.util.ArrayList;
 
 import Enums.OrderStatus;
@@ -20,7 +19,7 @@ public class OrderProcessingService {
 	}
 	
 	/**
-	 * TODO: This function take a list of MenuItems and creates an order.
+	 * TODO: This function takes a list of MenuItems and creates an order.
 	 * This order is then added to the list of orders with the status of PENDING
 	 * @param orderItems
 	 */
@@ -38,6 +37,7 @@ public class OrderProcessingService {
 		// Adds items to order
 		Order order = new Order(OrderStatus.PENDING, orderItems, 0, 0, 0, orderID);
 		orders.add(order);
+		System.out.println("Order number is " + orderID);
 		
 	}
 	
@@ -59,7 +59,7 @@ public class OrderProcessingService {
 					System.out.println("Item add ERROR...");
 			}
 		} catch(IndexOutOfBoundsException e) {
-			System.out.println("Order with id + " + orderID + " does not exist...");
+			System.out.println("Order with id " + orderID + " does not exist...");
 		} 
 	}
 	
@@ -86,8 +86,11 @@ public class OrderProcessingService {
 	}
 
 	
-	// Getters and Setters
-	
+	/**
+	 * TODO: This function takes and order and changes the status to the given status.
+	 * @param orderID
+	 * @param status
+	 */
 	public void manageOrderStatus(int orderID, OrderStatus status) {
 
 		Order order = new Order();
@@ -151,7 +154,7 @@ public class OrderProcessingService {
 	}
 	
 	/**
-	 * TODO: Calculates the total price and price with discount added of all menu items ordered.
+	 * TODO: HELPER FUNCTION Calculates the total price and price with discount added of all menu items ordered.
 	 * @param order
 	 */
 	public void calculateOrderPrice(Order order) {
