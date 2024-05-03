@@ -7,110 +7,121 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TableReservationService {
-	private List<Table> tables;
+    private List<Table> tables;
 
-	public TableReservationService() {
-		this.tables = new ArrayList<>();
-		initializeTables();
-	}
+    public TableReservationService() {
+        this.tables = new ArrayList<>();
+        initializeTables();
+    }
 
-	// Initialize All Tables(10) with capabilities of seating 6 people
-	private void initializeTables() {
-		// Loop to initialize all the tables
-		for (int i = 1; i <= 10; i++) {
-			tables.add(new Table(i, 6));
-		}
-	}
+    // Initialize All Tables(10) with capabilities of seating 6 people
+    private void initializeTables() {
+        // Loop to initialize all the tables
+        for (int i = 1; i <= 10; i++) {
+            tables.add(new Table(i, 6));
+        }
+    }
 
-	// @return the tables
-	public List<Table> getAllTables() {
-		return tables;
-	}
+    // @return the tables
+    public List<Table> getAllTables() {
+        return tables;
+    }
 
-	// @return the getTableByNumber
-	public Table getTableByNumber(int tableNumber) {
-		for (Table table : tables) {
-			if (table.getTableNumber() == tableNumber) {
-				return table;
-			}
-		}
-		// Table was not found
-		return null;
-	}
+    // @return the getTableByNumber
+    public Table getTableByNumber(int tableNumber) {
+        for (Table table : tables) {
+            if (table.getTableNumber() == tableNumber) {
+                return table;
+            }
+        }
+        // Table was not found
+        return null;
+    }
 
-	// Method to book a table for specific date and time
-	public boolean bookTable(int tableNumber, int customerCount, String customerName, DayOfWeek reservationDate, LocalTime reservationTime) {
-		Table table = getTableByNumber(tableNumber);
-		Table tableAdjacent = getTableByNumber(tableNumber + 1);
+    // Method to book a table for specific date and time
+    public boolean bookTable(int tableNumber, int customerCount, String customerName, DayOfWeek reservationDate, LocalTime reservationTime) {
+        if (customerCount <= 0 || customerName == null || customerName.isEmpty() || reservationDate == null || reservationTime == null) {
+            return false; // Invalid input, booking unsuccessful
+        }
 
-		if (customerCount <= table.getCapacity()) {
-			if (table != null && !table.isReserved() && table.getCapacity() >= customerCount) {
-				// Set table information for Table
-				table.setReserved(true);
-				table.setCustomerName(customerName);
-				table.setReservationDate(reservationDate);
-				table.setReservationTime(reservationTime);
-				return true;// Booking was successful
-			}
-		} else if (customerCount <= 2 * table.getCapacity()) {
-			if (table != null && tableAdjacent != null && !table.isReserved() && !tableAdjacent.isReserved()) {
-				// Set table information for Table 1
-				table.setReserved(true);
-				table.setCustomerName(customerName);
-				table.setReservationDate(reservationDate);
-				table.setReservationTime(reservationTime);
+        Table table = getTableByNumber(tableNumber);
+        Table tableAdjacent = getTableByNumber(tableNumber + 1);
 
-				// Set table information for Table 2
-				tableAdjacent.setReserved(true);
-				tableAdjacent.setCustomerName(customerName);
-				tableAdjacent.setReservationDate(reservationDate);
-				tableAdjacent.setReservationTime(reservationTime);
-				return true;// Booking was successful
-			}
-		}
+        if (table == null || customerCount > 2 * table.getCapacity() || table.isReserved()) {
+            return false; // Table not found, too many customers, or already reserved
+        }
 
-		return false;// Booking was unsuccessful
-	}
+        if (customerCount <= table.getCapacity()) {
+            // Set table information for Table
+            table.setReserved(true);
+            table.setCustomerName(customerName);
+            table.setReservationDate(reservationDate);
+            table.setReservationTime(reservationTime);
+            return true; // Booking was successful
+        } else if (tableAdjacent != null && !tableAdjacent.isReserved()) {
+            // Set table information for Table 1
+            table.setReserved(true);
+            table.setCustomerName(customerName);
+            table.setReservationDate(reservationDate);
+            table.setReservationTime(reservationTime);
 
-	// Method to handle cancellation of a reservation
-	public boolean cancelReservation(String customerName) {
-		for (Table table : tables) {
-			if (table.isReserved() && table.getCustomerName().equals(customerName)) {
-				table.setReserved(false);
-				table.setCustomerName(null);
-			}
-		}
-		return false;
-	}
+            // Set table information for Table 2
+            tableAdjacent.setReserved(true);
+            tableAdjacent.setCustomerName(customerName);
+            tableAdjacent.setReservationDate(reservationDate);
+            tableAdjacent.setReservationTime(reservationTime);
+            return true; // Booking was successful
+        }
 
-	// Method to display Available Tables
-	public void availableTables() {
-		System.out.println("The following tableNumbers are available: ");
-		for (Table table : tables) {
-			if (table.isReserved()) {
+        return false; // Booking was unsuccessful
+    }
 
-			} else {
-				System.out.print(table.getTableNumber() + ", ");
-			}
-		}
-	}
+    // Method to handle cancellation of a reservation
+    public boolean cancelReservation(String customerName) {
+        if (customerName == null || customerName.isEmpty()) {
+            return false; // Invalid input
+        }
 
-	public void confirmReservation(boolean tableIsReserved, int tableNumber) {
-		if (tableIsReserved) {
-			System.out.println("Table " + tableNumber + " has succesfully been reserved");
-		} else {
-			System.out.println("Table " + tableNumber + " was unable to be reserved");
-		}
-	}
+        boolean canceled = false;
+        for (Table table : tables) {
+            if (table.isReserved() && table.getCustomerName().equals(customerName)) {
+                table.setReserved(false);
+                table.setCustomerName(null);
+                canceled = true;
+            }
+        }
+        return canceled;
+    }
 
-	public void viewReservationDetails(String customerName) {
-		System.out.println("The following reservation is labeled under the name: " + customerName);
-		for (Table table : tables) {
-			if (table.isReserved() && table.getCustomerName().equals(customerName)) {
-				System.out.println("The table number is : " + table.getTableNumber());
-				System.out.println("The table date is : " + table.getReservationDate());
-				System.out.println("The table date is : " + table.getReservationTime());
-			}
-		}
-	}
+    // Method to display Available Tables
+    public void availableTables() {
+        System.out.println("The following tableNumbers are available: ");
+        for (Table table : tables) {
+            if (!table.isReserved()) {
+                System.out.print(table.getTableNumber() + ", ");
+            }
+        }
+    }
+
+    public void confirmReservation(boolean tableIsReserved, int tableNumber) {
+        if (tableIsReserved) {
+            System.out.println("Table " + tableNumber + " has successfully been reserved");
+        } else {
+            System.out.println("Table " + tableNumber + " was unable to be reserved");
+        }
+    }
+
+    public String viewReservationDetails(String customerName) {
+        if (customerName == null || customerName.isEmpty()) {
+            return null; // Invalid input
+        }
+
+        System.out.println("The following reservation is labeled under the name: " + customerName);
+        for (Table table : tables) {
+            if (table.isReserved() && table.getCustomerName().equals(customerName)) {
+                return "The table number is : " + table.getTableNumber() + "\n" + "The table date is : " + table.getReservationDate() + "\n" + "The table date is : " + table.getReservationTime();
+            }
+        }
+        return null;
+    }
 }
