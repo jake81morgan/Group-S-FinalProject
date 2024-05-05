@@ -23,7 +23,7 @@ public class OrderProcessingService {
 	 * This order is then added to the list of orders with the status of PENDING
 	 * @param orderItems
 	 */
-	public void takeOrder(ArrayList<MenuItem> orderItems) {
+	public int takeOrder(ArrayList<MenuItem> orderItems) {
 		
 		// Increments the order ID everytime a new order is created
 		int orderID;
@@ -38,6 +38,7 @@ public class OrderProcessingService {
 		Order order = new Order(OrderStatus.PENDING, orderItems, 0, 0, 0, orderID);
 		orders.add(order);
 		System.out.println("Order number is " + orderID);
+		return orderID;
 		
 	}
 	
@@ -46,7 +47,7 @@ public class OrderProcessingService {
 	 * @param orderID
 	 * @param item
 	 */
-	public void addToOrder(int orderID, MenuItem item) {
+	public boolean addToOrder(int orderID, MenuItem item) {
 		
 		Order order = new Order();
 		
@@ -55,11 +56,14 @@ public class OrderProcessingService {
 			if(order.add(item)) {
 					System.out.println("Item added...");
 					orders.set(orderID, order);
+					return true;
 			} else {
 					System.out.println("Item add ERROR...");
+					return false;
 			}
 		} catch(IndexOutOfBoundsException e) {
 			System.out.println("Order with id " + orderID + " does not exist...");
+			return false;
 		} 
 	}
 	
@@ -68,7 +72,7 @@ public class OrderProcessingService {
 	 * @param orderID
 	 * @param item
 	 */
-	public void removeFromOrder(int orderID, MenuItem item) {
+	public boolean removeFromOrder(int orderID, MenuItem item) {
 		
 		Order order = new Order();
 		
@@ -77,11 +81,14 @@ public class OrderProcessingService {
 			if(order.remove(item)) {
 					System.out.println("Item removed...");
 					orders.set(orderID, order);
+					return true;
 			} else {
 					System.out.println("Item removal ERROR...");
+					return false;
 			}
 		} catch(IndexOutOfBoundsException e) {
 			System.out.println("Order with id + " + orderID + " does not exist...");
+			return false;
 		} 
 	}
 
@@ -91,7 +98,7 @@ public class OrderProcessingService {
 	 * @param orderID
 	 * @param status
 	 */
-	public void manageOrderStatus(int orderID, OrderStatus status) {
+	public boolean manageOrderStatus(int orderID, OrderStatus status) {
 
 		Order order = new Order();
 		
@@ -101,11 +108,12 @@ public class OrderProcessingService {
 			order.setOrderStatus(status);
 			orders.set(orderID, order);
 			System.out.println("Order status changed to " + order.getOrderStatus());
+			return true;
 			
 		} catch(IndexOutOfBoundsException e) {
 			
 			System.out.println("Order with id + " + orderID + " does not exist...");
-			
+			return false;
 		}
 		
 	}
@@ -115,7 +123,7 @@ public class OrderProcessingService {
 	 * @param orderID
 	 * @param discount
 	 */
-	public void applyDiscount(int orderID, double discount) {
+	public boolean applyDiscount(int orderID, double discount) {
 		Order order = new Order();
 		
 		try {
@@ -124,11 +132,12 @@ public class OrderProcessingService {
 			order.setOrderDiscount(discount);
 			calculateOrderPrice(order);
 			orders.set(orderID, order);
+			return true;
 			
 		} catch(IndexOutOfBoundsException e) {
 			
 			System.out.println("Order with id + " + orderID + " does not exist...");
-			
+			return false;
 		}
 	}
 	
@@ -137,7 +146,7 @@ public class OrderProcessingService {
 	 * @param orderID
 	 * @param split
 	 */
-	public void splitBill(int orderID, int split) {
+	public boolean splitBill(int orderID, int split) {
 		Order order = new Order();
 		
 		try {
@@ -145,10 +154,11 @@ public class OrderProcessingService {
 			order = orders.get(orderID);
 			calculateOrderPrice(order);
 			System.out.println("When split " + split + " ways, the price "+ order.getFinalPrice() + "/person.");
-			
+			return true;
 		} catch(IndexOutOfBoundsException e) {
 			
 			System.out.println("Order with id + " + orderID + " does not exist...");
+			return false;
 			
 		}
 	}
