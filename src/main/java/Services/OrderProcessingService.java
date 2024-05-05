@@ -21,7 +21,9 @@ public class OrderProcessingService {
 	/**
 	 * TODO: This function takes a list of MenuItems and creates an order.
 	 * This order is then added to the list of orders with the status of PENDING
+	 * It then returns the ID of the order that was added to the list.
 	 * @param orderItems
+	 * @return orderID
 	 */
 	public int takeOrder(ArrayList<MenuItem> orderItems) {
 		
@@ -43,9 +45,10 @@ public class OrderProcessingService {
 	}
 	
 	/**
-	 * TODO: This function adds a MenuItem to an order if it is found in the list of orders.
+	 * TODO: This function adds a MenuItem to an order if it is found in the list of orders and returns true if success.
 	 * @param orderID
 	 * @param item
+	 * @return boolean
 	 */
 	public boolean addToOrder(int orderID, MenuItem item) {
 		
@@ -68,9 +71,10 @@ public class OrderProcessingService {
 	}
 	
 	/**
-	 * TODO: This function removes a MenuItem from an order if it is found in the list of orders.
+	 * TODO: This function removes a MenuItem from an order if it is found in the list of orders and returns true if success.
 	 * @param orderID
 	 * @param item
+	 * @return boolean
 	 */
 	public boolean removeFromOrder(int orderID, MenuItem item) {
 		
@@ -94,9 +98,10 @@ public class OrderProcessingService {
 
 	
 	/**
-	 * TODO: This function takes and order and changes the status to the given status.
+	 * TODO: This function takes and order and changes the status to the given status and returns true if success.
 	 * @param orderID
 	 * @param status
+	 * @return boolean
 	 */
 	public boolean manageOrderStatus(int orderID, OrderStatus status) {
 
@@ -119,9 +124,10 @@ public class OrderProcessingService {
 	}
 	
 	/**
-	 * TODO: This function applies a discount to the order specified
+	 * TODO: This function applies a discount to the order specified and returns true if success.
 	 * @param orderID
 	 * @param discount
+	 * @return boolean
 	 */
 	public boolean applyDiscount(int orderID, double discount) {
 		Order order = new Order();
@@ -142,9 +148,11 @@ public class OrderProcessingService {
 	}
 	
 	/**
-	 * TODO: This function calculates and returns the price of the bill split in a specified way.
+	 * TODO: This function calculates and prints the price of the bill split in a specified way.
+	 * Then it returns true if success.
 	 * @param orderID
 	 * @param split
+	 * @return boolean
 	 */
 	public boolean splitBill(int orderID, int split) {
 		Order order = new Order();
@@ -180,6 +188,8 @@ public class OrderProcessingService {
 		order.setTotalPrice(totalPrice);
 		order.setFinalPrice(totalPrice * discount);
 	}
+	
+	// Getters and Setters
 
 	public ArrayList<Order> getOrders() {
 		return orders;
