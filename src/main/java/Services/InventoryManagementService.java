@@ -15,7 +15,7 @@ public class InventoryManagementService {
 	
     public void initializeInventory() {
     	for (IngredientNames ingredientName : IngredientNames.values()) {
-            Ingredient ingredient = new Ingredient(ingredientName.getDisplayName(), 100, "Sysco", 25);
+            Ingredient ingredient = new Ingredient(ingredientName.getDisplayName(), 0, "Sysco", 25);
             inventory.add(ingredient);
         }
     }
