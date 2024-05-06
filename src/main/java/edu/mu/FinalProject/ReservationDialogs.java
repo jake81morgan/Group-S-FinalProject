@@ -8,8 +8,6 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import Services.TableReservationService;
@@ -20,7 +18,6 @@ public class ReservationDialogs extends JDialog {
 	private JTextField customerCountField;
 	private JTextField dateField;
 	private JTextField timeField;
-	private JTextArea detailsArea;
 	private static final long serialVersionUID = 1L;
 
 	public ReservationDialogs() {
