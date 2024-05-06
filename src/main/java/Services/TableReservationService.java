@@ -17,8 +17,10 @@ public class TableReservationService {
     // Initialize All Tables(10) with capabilities of seating 6 people
     private void initializeTables() {
         // Loop to initialize all the tables
-        for (int i = 1; i <= 10; i++) {
-            tables.add(new Table(i, 6));
+    	int tableCount = 10;
+    	int customerCount = 6;
+        for (int i = 1; i <= tableCount; i++) {
+            tables.add(new Table(i, customerCount));
         }
     }
 
@@ -48,6 +50,7 @@ public class TableReservationService {
         Table tableAdjacent = getTableByNumber(tableNumber + 1);
 
         if (table == null || customerCount > 2 * table.getCapacity() || table.isReserved()) {
+        	confirmReservation(table.isReserved(),table.getTableNumber());// Booking was successful for Table 1
             return false; // Table not found, too many customers, or already reserved
         }
 
@@ -57,6 +60,7 @@ public class TableReservationService {
             table.setCustomerName(customerName);
             table.setReservationDate(reservationDate);
             table.setReservationTime(reservationTime);
+            confirmReservation(table.isReserved(),table.getTableNumber());// Booking was successful
             return true; // Booking was successful
         } else if (tableAdjacent != null && !tableAdjacent.isReserved()) {
             // Set table information for Table 1
@@ -64,15 +68,16 @@ public class TableReservationService {
             table.setCustomerName(customerName);
             table.setReservationDate(reservationDate);
             table.setReservationTime(reservationTime);
-
+            confirmReservation(table.isReserved(),table.getTableNumber());// Booking was successful for Table 1
             // Set table information for Table 2
             tableAdjacent.setReserved(true);
             tableAdjacent.setCustomerName(customerName);
             tableAdjacent.setReservationDate(reservationDate);
             tableAdjacent.setReservationTime(reservationTime);
+            confirmReservation(tableAdjacent.isReserved(),tableAdjacent.getTableNumber());// Booking was successful for Table 2
             return true; // Booking was successful
         }
-
+        confirmReservation(table.isReserved(),table.getTableNumber());// Booking was successful for Table 1
         return false; // Booking was unsuccessful
     }
 
