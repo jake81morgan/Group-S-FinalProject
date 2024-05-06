@@ -4,16 +4,16 @@ import javax.swing.*;
 
 import Controllers.*;
 import Services.*;
-import edu.mu.FinalProject.ReservationDialogs;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.DayOfWeek;
-import java.time.LocalTime;
 
 public class ManagementGUI extends JFrame implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel mainPanel;
 	private JPanel inventoryPanel;
 	private JPanel menuPanel;
@@ -147,20 +147,22 @@ public class ManagementGUI extends JFrame implements ActionListener {
 		JButton addMenuItemButton = new JButton("Add Menu Item");
 		JButton removeMenuItemButton = new JButton("Remove Menu Item");
 		JButton displayMenuItemsButton = new JButton("Display Menu Items");
+		
+		MenuManagementService Menu = new MenuManagementService();
+		MenuDialogs dialog = new MenuDialogs();
 
 		addMenuItemButton.addActionListener(e -> {
-			// Logic to open a dialog for adding a menu item
-			//AddMenuItemDialog dialog = new AddMenuItemDialog();
-			// dialog.setVisible(true);
+			dialog.AddMenuItemDialog(Menu);
+			dialog.setVisible(true);
+
 		});
 
 		removeMenuItemButton.addActionListener(e -> {
-			// Logic to open a dialog for removing a menu item
-			// Example: RemoveMenuItemDialog dialog = new RemoveMenuItemDialog();
-			// dialog.setVisible(true);
+			dialog.RemoveMenuItem(Menu);
+			dialog.setVisible(true);
 		});
 
-		displayMenuItemsButton.addActionListener(e -> menuController.displayMenuItems());
+		displayMenuItemsButton.addActionListener(e -> menuController.displayMenuItems(Menu));
 
 		menuPanel.add(addMenuItemButton);
 		menuPanel.add(removeMenuItemButton);
