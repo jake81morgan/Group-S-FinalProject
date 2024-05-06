@@ -1,6 +1,7 @@
 package Services;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import Enums.IngredientNames;
 import Models.Ingredient;
@@ -30,6 +31,24 @@ public class InventoryManagementService {
 		
 	}
 	
+	public void addIngredient(String name, int quantity, String supplier, int orderThreshold) {
+	    Ingredient ingredient = new Ingredient(name, quantity, supplier, orderThreshold);
+	    inventory.add(ingredient);
+	}
+	
+	public void removeIngredient(String name) {
+	    Iterator<Ingredient> iterator = inventory.iterator();
+	    while (iterator.hasNext()) {
+	        Ingredient ingredient = iterator.next();
+	        if (ingredient.getName().equals(name)) {
+	            iterator.remove();
+	            System.out.println("Ingredient " + name + " removed from inventory.");
+	            return;
+	        }
+	    }
+	    System.out.println("Ingredient " + name + " not found in inventory.");
+	}
+
 	public String generateInventoryReport() {
         StringBuilder report = new StringBuilder();
         report.append("Inventory Report:\n");
