@@ -90,6 +90,7 @@ public class TableReservationService {
         boolean canceled = false;
         for (Table table : tables) {
             if (table.isReserved() && table.getCustomerName().equals(customerName)) {
+            	System.out.println(table.getCustomerName() + "'s reservation at table "+table.getTableNumber()+" has successfully been cancelled");
                 table.setReserved(false);
                 table.setCustomerName(null);
                 canceled = true;
@@ -106,6 +107,7 @@ public class TableReservationService {
                 System.out.print(table.getTableNumber() + ", ");
             }
         }
+        System.out.print("\n");
     }
 
     public void confirmReservation(boolean tableIsReserved, int tableNumber) {
@@ -124,7 +126,8 @@ public class TableReservationService {
         System.out.println("The following reservation is labeled under the name: " + customerName);
         for (Table table : tables) {
             if (table.isReserved() && table.getCustomerName().equals(customerName)) {
-                return "The table number is : " + table.getTableNumber() + "\n" + "The table date is : " + table.getReservationDate() + "\n" + "The table date is : " + table.getReservationTime();
+            	String details = ("The table number is : " + table.getTableNumber() + "\n" + "The table date is : " + table.getReservationDate() + "\n" + "The table date is : " + table.getReservationTime());
+                return details;
             }
         }
         return null;
