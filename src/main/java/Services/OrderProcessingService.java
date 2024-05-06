@@ -21,9 +21,11 @@ public class OrderProcessingService {
 	/**
 	 * TODO: This function takes a list of MenuItems and creates an order.
 	 * This order is then added to the list of orders with the status of PENDING
+	 * It then returns the ID of the order that was added to the list.
 	 * @param orderItems
+	 * @return orderID
 	 */
-	public void takeOrder(ArrayList<MenuItem> orderItems) {
+	public int takeOrder(ArrayList<MenuItem> orderItems) {
 		
 		// Increments the order ID everytime a new order is created
 		int orderID;
@@ -38,15 +40,17 @@ public class OrderProcessingService {
 		Order order = new Order(OrderStatus.PENDING, orderItems, 0, 0, 0, orderID);
 		orders.add(order);
 		System.out.println("Order number is " + orderID);
+		return orderID;
 		
 	}
 	
 	/**
-	 * TODO: This function adds a MenuItem to an order if it is found in the list of orders.
+	 * TODO: This function adds a MenuItem to an order if it is found in the list of orders and returns true if success.
 	 * @param orderID
 	 * @param item
+	 * @return boolean
 	 */
-	public void addToOrder(int orderID, MenuItem item) {
+	public boolean addToOrder(int orderID, MenuItem item) {
 		
 		Order order = new Order();
 		
@@ -55,20 +59,24 @@ public class OrderProcessingService {
 			if(order.add(item)) {
 					System.out.println("Item added...");
 					orders.set(orderID, order);
+					return true;
 			} else {
 					System.out.println("Item add ERROR...");
+					return false;
 			}
 		} catch(IndexOutOfBoundsException e) {
 			System.out.println("Order with id " + orderID + " does not exist...");
+			return false;
 		} 
 	}
 	
 	/**
-	 * TODO: This function removes a MenuItem from an order if it is found in the list of orders.
+	 * TODO: This function removes a MenuItem from an order if it is found in the list of orders and returns true if success.
 	 * @param orderID
 	 * @param item
+	 * @return boolean
 	 */
-	public void removeFromOrder(int orderID, MenuItem item) {
+	public boolean removeFromOrder(int orderID, MenuItem item) {
 		
 		Order order = new Order();
 		
@@ -77,21 +85,25 @@ public class OrderProcessingService {
 			if(order.remove(item)) {
 					System.out.println("Item removed...");
 					orders.set(orderID, order);
+					return true;
 			} else {
 					System.out.println("Item removal ERROR...");
+					return false;
 			}
 		} catch(IndexOutOfBoundsException e) {
 			System.out.println("Order with id + " + orderID + " does not exist...");
+			return false;
 		} 
 	}
 
 	
 	/**
-	 * TODO: This function takes and order and changes the status to the given status.
+	 * TODO: This function takes and order and changes the status to the given status and returns true if success.
 	 * @param orderID
 	 * @param status
+	 * @return boolean
 	 */
-	public void manageOrderStatus(int orderID, OrderStatus status) {
+	public boolean manageOrderStatus(int orderID, OrderStatus status) {
 
 		Order order = new Order();
 		
@@ -101,21 +113,23 @@ public class OrderProcessingService {
 			order.setOrderStatus(status);
 			orders.set(orderID, order);
 			System.out.println("Order status changed to " + order.getOrderStatus());
+			return true;
 			
 		} catch(IndexOutOfBoundsException e) {
 			
 			System.out.println("Order with id + " + orderID + " does not exist...");
-			
+			return false;
 		}
 		
 	}
 	
 	/**
-	 * TODO: This function applies a discount to the order specified
+	 * TODO: This function applies a discount to the order specified and returns true if success.
 	 * @param orderID
 	 * @param discount
+	 * @return boolean
 	 */
-	public void applyDiscount(int orderID, double discount) {
+	public boolean applyDiscount(int orderID, double discount) {
 		Order order = new Order();
 		
 		try {
@@ -124,20 +138,23 @@ public class OrderProcessingService {
 			order.setOrderDiscount(discount);
 			calculateOrderPrice(order);
 			orders.set(orderID, order);
+			return true;
 			
 		} catch(IndexOutOfBoundsException e) {
 			
 			System.out.println("Order with id + " + orderID + " does not exist...");
-			
+			return false;
 		}
 	}
 	
 	/**
-	 * TODO: This function calculates and returns the price of the bill split in a specified way.
+	 * TODO: This function calculates and prints the price of the bill split in a specified way.
+	 * Then it returns true if success.
 	 * @param orderID
 	 * @param split
+	 * @return boolean
 	 */
-	public void splitBill(int orderID, int split) {
+	public boolean splitBill(int orderID, int split) {
 		Order order = new Order();
 		
 		try {
@@ -145,10 +162,11 @@ public class OrderProcessingService {
 			order = orders.get(orderID);
 			calculateOrderPrice(order);
 			System.out.println("When split " + split + " ways, the price "+ order.getFinalPrice() + "/person.");
-			
+			return true;
 		} catch(IndexOutOfBoundsException e) {
 			
 			System.out.println("Order with id + " + orderID + " does not exist...");
+			return false;
 			
 		}
 	}
@@ -170,6 +188,8 @@ public class OrderProcessingService {
 		order.setTotalPrice(totalPrice);
 		order.setFinalPrice(totalPrice * discount);
 	}
+	
+	// Getters and Setters
 
 	public ArrayList<Order> getOrders() {
 		return orders;
