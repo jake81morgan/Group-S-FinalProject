@@ -78,6 +78,7 @@ public class ReservationDialogs extends JDialog {
 			remove(timeLabel);
 			remove(timeField);
 			remove(bookButton);
+			remove(cancelButton);
 		});
 		cancelButton.addActionListener(e -> {
 			dispose();
