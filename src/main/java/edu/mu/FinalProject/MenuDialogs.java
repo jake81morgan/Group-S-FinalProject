@@ -5,9 +5,6 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import Services.MenuManagementService;
@@ -20,7 +17,6 @@ public class MenuDialogs extends JDialog {
 	private JTextField menuItemPriceField;
 	private JTextField menuItemCategoryField;
 	private JTextField MenuItemIDField;
-	private int id = 0;
 	private static final long serialVersionUID = 1L;
 
 	public MenuDialogs() {
@@ -28,7 +24,7 @@ public class MenuDialogs extends JDialog {
 
 	public void AddMenuItemDialog(MenuManagementService MenuService) {
 		setTitle("Add Menu Item");
-		setSize(400, 200);
+		setSize(600, 200);
 		setLayout(new GridLayout(6, 2));
 		
 		JLabel menuItemNameLabel = new JLabel("Menu Item Name:");

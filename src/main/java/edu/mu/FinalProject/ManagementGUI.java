@@ -3,10 +3,14 @@ package edu.mu.FinalProject;
 import javax.swing.*;
 
 import Controllers.*;
+import Enums.MenuCategory;
+import Enums.OrderStatus;
+import Models.MenuItem;
 import Services.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class ManagementGUI extends JFrame implements ActionListener {
 
@@ -27,8 +31,7 @@ public class ManagementGUI extends JFrame implements ActionListener {
 
 	private InventoryController inventoryController;
 	private MenuController menuController;
-	private OrderController orderController;
-	private TableController tableController;
+	private int i;
 
 	public ManagementGUI() {
 		super("Management GUI");
@@ -39,8 +42,7 @@ public class ManagementGUI extends JFrame implements ActionListener {
 		// Initialize controllers
 		inventoryController = new InventoryController();
 		menuController = new MenuController();
-		orderController = new OrderController();
-		tableController = new TableController();
+		new OrderController();
 
 		// Main panel
 		mainPanel = new JPanel(new GridLayout(4, 1));
@@ -176,27 +178,82 @@ public class ManagementGUI extends JFrame implements ActionListener {
 	private void showOrderSection() {
 		JFrame orderFrame = new JFrame("Order Section");
 		JPanel orderPanel = new JPanel();
-		JButton takeOrderButton = new JButton("Take Order");
+		JButton takeOrderButton = new JButton("Take Order/Add To Order");
 		JButton manageOrderButton = new JButton("Manage Order");
-		JButton displayOrdersButton = new JButton("Display Orders");
+		
+		OrderProcessingService Order = new OrderProcessingService();
+		OrderDialogs dialog = new OrderDialogs();
+		ArrayList<MenuItem> items  = new ArrayList<MenuItem>();
+
+
 
 		takeOrderButton.addActionListener(e -> {
-			// Logic to open a dialog for taking an order
-			// Example: TakeOrderDialog dialog = new TakeOrderDialog();
-			// dialog.setVisible(true);
+	        JFrame orderSelectionFrame = new JFrame("Select Items");
+	        JPanel orderSelectionPanel = new JPanel();
+	        JButton pastaButton = new JButton("Pasta");
+	        JButton pizzaButton = new JButton("Pizza");
+	        JButton breadButton = new JButton("Bread");
+	        JButton closeButton = new JButton("close");
+	        MenuItem newItem1 = new MenuItem(1, "Pasta", "Delicious Italian pasta", 8.99, MenuCategory.MAIN);
+			MenuItem newItem2 = new MenuItem(2, "Pizza", "Delicious Italian Pizza", 9.99, MenuCategory.MAIN);
+			MenuItem newItem3 = new MenuItem(3, "Bread", "Delicious Italian bread", 3.99, MenuCategory.MAIN);
+			
+	        pastaButton.addActionListener(e1 -> {
+	        	if(i==0) {
+	        		i++;
+	        		items.add(newItem1);
+	        		Order.takeOrder(items);
+	        	}
+	        	else
+	        	{
+	        		Order.addToOrder(0, newItem1);
+	        	}
+	        });
+
+	        pizzaButton.addActionListener(e1 -> {
+	        	if(i==0) {
+	        		i++;
+	        		items.add(newItem2);
+	        		Order.takeOrder(items);
+	        	}
+	        	else
+	        	{
+	        		Order.addToOrder(0, newItem2);
+	        	}
+	        });
+
+	        breadButton.addActionListener(e1 -> {
+	        	if(i==0) {
+	        		i++;
+	        		items.add(newItem3);
+	        		Order.takeOrder(items);
+	        	}
+	        	else
+	        	{
+	        		Order.addToOrder(0, newItem3);
+	        	}
+	        });
+	        closeButton.addActionListener(e1 -> {
+	        	orderSelectionFrame.dispose();
+			});
+
+
+	        orderSelectionPanel.add(pastaButton);
+	        orderSelectionPanel.add(pizzaButton);
+	        orderSelectionPanel.add(breadButton);
+	        orderSelectionPanel.add(closeButton);
+
+	        orderSelectionFrame.getContentPane().add(orderSelectionPanel);
+	        orderSelectionFrame.setSize(300, 200);
+	        orderSelectionFrame.setVisible(true);
 		});
 
 		manageOrderButton.addActionListener(e -> {
-			// Logic to open a dialog for managing an order
-			// Example: ManageOrderDialog dialog = new ManageOrderDialog();
-			// dialog.setVisible(true);
+			dialog.manageOrder(Order, 0, OrderStatus.COMPLETED);
 		});
-
-		displayOrdersButton.addActionListener(e -> orderController.displayOrders());
 
 		orderPanel.add(takeOrderButton);
 		orderPanel.add(manageOrderButton);
-		orderPanel.add(displayOrdersButton);
 
 		orderFrame.getContentPane().add(orderPanel);
 		orderFrame.setSize(300, 200);
