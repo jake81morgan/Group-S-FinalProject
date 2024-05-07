@@ -24,6 +24,13 @@ public class MenuController {
 		MenuItem updatedItem = new MenuItem(id, name, description, price, category);
 		menuService.updateMenuItem(updatedItem);
 	}
+	
+	public void displaySortedMenuItems() {
+	    menuService.sortMenuItemsByPrice();
+	    for (MenuItem item : menuService.getMenuItems()) {
+	        System.out.println("ID #" + item.getId() + " " + item.getName() + " - " + item.getDescription() + " - $" + item.getPrice());
+	    }
+	}
 
 	public void displayMenuItems(MenuManagementService Menu) {
 		for (MenuItem item : Menu.getMenuItems()) {

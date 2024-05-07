@@ -2,6 +2,8 @@ package Services;
 
 import Models.MenuItem;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MenuManagementService {
@@ -24,6 +26,10 @@ public class MenuManagementService {
                 item.setCategory(updatedItem.getCategory());
             }
         });
+    }
+    
+    public void sortMenuItemsByPrice() {
+        Collections.sort(menuItems, Comparator.comparingDouble(MenuItem::getPrice));
     }
 
     public List<MenuItem> getMenuItems() {
