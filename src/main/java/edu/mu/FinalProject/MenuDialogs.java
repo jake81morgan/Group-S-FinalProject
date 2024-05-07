@@ -83,6 +83,7 @@ public class MenuDialogs extends JDialog {
 			remove(AddMenuItemButton);
 			remove(MenuItemIDLabel);
 			remove(MenuItemIDField);
+			remove(cancelButton);
 		});
 		cancelButton.addActionListener(e -> {
 			dispose();
